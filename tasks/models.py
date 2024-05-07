@@ -14,7 +14,7 @@ class Task(models.Model):
     detail = models.TextField
     date_start = models.DateField()
     date_end = models.DateField(null=True, blank=True)
-    user_assigned = models.ManyToManyField(User, related_name="task")
+    user_assigned = models.ManyToManyField(User, related_name="task", null=True)
 
 
 class Task_dependencies(models.Model):

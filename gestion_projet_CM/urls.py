@@ -16,15 +16,37 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
+from rest_framework import routers, permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from folders.views import FolderViewSet
+from groups.views import GroupViewSet
+from tasks.views import TaskViewSet
 from users.views import UserViewSet
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="gestion_projet_CM",
+        default_version='v1',
+        description="Gestionnaire de projets spécifique aux besoins d'un conseil municipal",
+        terms_of_service="https://www.example.com/policies/terms/",
+        contact=openapi.Contact(email="contact@example.com"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny],
+)
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
+router.register(r'groups', GroupViewSet, basename='group')
+router.register(r'folders', FolderViewSet, basename='folder')
+router.register(r'tasks', TaskViewSet, basename='task')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/', include(router.urls)),
