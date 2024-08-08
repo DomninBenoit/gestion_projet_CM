@@ -10,12 +10,12 @@ User = get_user_model()
 
 
 def create_test_user():
-    username = 'test'
+    username = 'conseiller'
     password = 'password123'
-    email = 'test@example.com'
-    first_name = 'John'
-    last_name = 'Doe'
-    fonction = 'maire'
+    email = 'conseiller@example.com'
+    first_name = 'con'
+    last_name = 'seiller'
+    fonction = 'conseiller'
     phone = '1234567890'
 
     user = User.objects.create_user(
